@@ -61,7 +61,7 @@ export default function Dashboard() {
                         Linkat Dashboard
                     </Typography>
                     <IconButton color='inherit'>
-                        <Badge badgeContent={4} color='secondary'>
+                        <Badge badgeContent={14} max={99} color='secondary'>
                             <NotificationsIcon />
                         </Badge>
                     </IconButton>

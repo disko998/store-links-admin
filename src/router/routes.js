@@ -6,4 +6,8 @@ export default {
     ADS: '/ads',
     CATEGORIES: '/categories',
     COUNTRY: '/country',
+
+    // Store stack
+    VIEW_STORE: '/view',
+    ADD_STORE: '/add',
 }

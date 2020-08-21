@@ -1,15 +1,18 @@
 import React from 'react'
 import { Switch, Route, useLocation } from 'react-router-dom'
+
 import routes from './routes'
+import DashboardPage from '../pages/DashboardPage'
+import StoreStack from './StoreStack'
 
 export default function MainRouter() {
     return (
         <Switch>
             <Route exact path={routes.DASHBOARD}>
-                <Development />
+                <DashboardPage />
             </Route>
             <Route path={routes.STORES}>
-                <Development />
+                <StoreStack />
             </Route>
             <Route path={routes.STORY}>
                 <Development />
