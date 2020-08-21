@@ -83,7 +83,7 @@ export default function StoreForm() {
                         required
                     />
                 </Grid>
-                <Grid item xs={12} sm={6}>
+                <Grid item xs={12} sm={12}>
                     <CategorySelect />
                 </Grid>
                 <Grid item xs={12}>
