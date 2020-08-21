@@ -4,6 +4,7 @@ import { Switch, Route, useRouteMatch, useLocation } from 'react-router-dom'
 import routes from './routes'
 import StoresPage from '../pages/StoresPage'
 import StorePage from '../pages/StorePage'
+import AddStorePage from '../pages/AddStorePage'
 
 export default function StoreStack() {
     const { path } = useRouteMatch()
@@ -17,7 +18,7 @@ export default function StoreStack() {
                 <StorePage />
             </Route>
             <Route path={`${path}${routes.ADD_STORE}`}>
-                <Development />
+                <AddStorePage />
             </Route>
         </Switch>
     )

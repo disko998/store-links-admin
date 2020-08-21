@@ -31,7 +31,14 @@ export default function StoresList() {
         <Grid container spacing={3}>
             {stores ? (
                 stores.map(store => (
-                    <Grid item xs={6} md={3} lg={2} className={classes.item}>
+                    <Grid
+                        key={store.id}
+                        item
+                        xs={6}
+                        sm={3}
+                        lg={2}
+                        className={classes.item}
+                    >
                         <IconButton aria-label='store' onClick={() => onItemPress(store)}>
                             <Avatar
                                 alt={store.name}
