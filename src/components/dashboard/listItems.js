@@ -5,10 +5,11 @@ import { ListItem, ListItemIcon, ListItemText, ListSubheader } from '@material-u
 import DashboardIcon from '@material-ui/icons/Dashboard'
 import StoreIcon from '@material-ui/icons/Store'
 import LayersIcon from '@material-ui/icons/Layers'
-import AddPhotoAlternateIcon from '@material-ui/icons/AddPhotoAlternate'
 import AnnouncementIcon from '@material-ui/icons/Announcement'
 import CategoryIcon from '@material-ui/icons/Category'
 import FlagIcon from '@material-ui/icons/Flag'
+import ViewCarouselIcon from '@material-ui/icons/ViewCarousel'
+
 import routes from '../../router/routes'
 
 export const MainListItems = () => {
@@ -30,7 +31,7 @@ export const MainListItems = () => {
             </ListItem>
             <ListItem button onClick={() => history.push(routes.STORY)}>
                 <ListItemIcon>
-                    <AddPhotoAlternateIcon />
+                    <ViewCarouselIcon />
                 </ListItemIcon>
                 <ListItemText primary='Story' />
             </ListItem>

@@ -1,28 +1,45 @@
 import React from 'react'
 import { makeStyles, Avatar } from '@material-ui/core'
 
-import ViewCarouselIcon from '@material-ui/icons/ViewCarousel'
 import AddPhotoAlternateIcon from '@material-ui/icons/AddPhotoAlternate'
 
 export default function ImagePicker({
-    id,
+    name,
     round,
-    src,
+    handleImageChange,
     title,
     width,
     height,
     variant,
+    error,
     ...inputProps
 }) {
-    const classes = useStyles()
+    const classes = useStyles({ error })
+    const [image, setImage] = React.useState('')
+
+    const handleOnChange = input => {
+        handleImageChange(input)
+        if (input.target.files && input.target.files[0]) {
+            const reader = new FileReader()
+
+            reader.onload = function (e) {
+                handleImageChange(input.target.name)(e.target.result)
+                setImage(e.target.result)
+            }
+
+            reader.readAsDataURL(input.target.files[0])
+        }
+
+        // return setImage(URL.createObjectURL(input.target.files[0]))
+    }
 
     return (
         <div className={classes.logo} style={{ width, height }}>
-            <label for={id}>
+            <label for={name}>
                 <Avatar
-                    alt={id}
+                    alt={name}
                     variant={variant || 'circle'}
-                    src={src}
+                    src={image}
                     size='large'
                     className={classes.avatar}
                 >
@@ -32,30 +49,28 @@ export default function ImagePicker({
             </label>
 
             <input
-                id={id}
+                id={name}
+                name={name}
                 type='file'
+                accept='image/*'
                 style={{
                     display: ' none',
                 }}
+                onChange={handleOnChange}
                 {...inputProps}
             />
         </div>
     )
 }
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles({
     logo: {
         margin: 'auto',
     },
-    avatar: {
+    avatar: props => ({
         cursor: 'pointer',
         width: '100%',
         height: '100%',
-    },
-    image: {
-        cursor: 'pointer',
-        width: '100%',
-        height: '100%',
-        background: 'gray',
-    },
-}))
+        color: props.error ? '#f44336' : '#fff',
+    }),
+})

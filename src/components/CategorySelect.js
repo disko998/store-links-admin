@@ -10,41 +10,23 @@ import {
 } from '@material-ui/core'
 import { useSelector } from 'react-redux'
 
-const names = [
-    'Oliver Hansen',
-    'Van Henry',
-    'April Tucker',
-    'Ralph Hubbard',
-    'Omar Alexander',
-    'Carlos Abbott',
-    'Miriam Wagner',
-    'Bradley Wilkerson',
-    'Virginia Andrews',
-    'Kelly Snyder',
-]
-
-export default function CategorySelect(...selectProps) {
+export default function CategorySelect({ onChange, value, ...selectProps }) {
     const classes = useStyles()
-    const [personName, setPersonName] = React.useState([])
     const categories = useSelector(state => state.firestore.ordered.categories)
 
-    const handleChange = event => {
-        setPersonName(event.target.value)
-    }
-
-    console.log(categories)
     return (
         <FormControl className={classes.formControl}>
             <InputLabel id='categories-label'>Categories *</InputLabel>
             <Select
                 labelId='categories'
                 id='categories'
+                name='categories'
                 multiple
                 required
                 multiline
                 rowsMin={3}
-                value={personName}
-                onChange={handleChange}
+                value={value}
+                onChange={onChange}
                 input={<Input id='categories-chip' />}
                 renderValue={selected => (
                     <div className={classes.chips}>
@@ -54,6 +36,7 @@ export default function CategorySelect(...selectProps) {
                     </div>
                 )}
                 MenuProps={MenuProps}
+                {...selectProps}
             >
                 {categories &&
                     categories.map(({ title }) => (
