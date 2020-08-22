@@ -8,6 +8,7 @@ import {
     Input,
     Chip,
 } from '@material-ui/core'
+import { useSelector } from 'react-redux'
 
 const names = [
     'Oliver Hansen',
@@ -25,19 +26,23 @@ const names = [
 export default function CategorySelect(...selectProps) {
     const classes = useStyles()
     const [personName, setPersonName] = React.useState([])
+    const categories = useSelector(state => state.firestore.ordered.categories)
 
     const handleChange = event => {
         setPersonName(event.target.value)
     }
+
+    console.log(categories)
     return (
         <FormControl className={classes.formControl}>
-            <InputLabel id='categories-label'>Chip</InputLabel>
+            <InputLabel id='categories-label'>Categories *</InputLabel>
             <Select
                 labelId='categories'
                 id='categories'
-                className={classes.input}
                 multiple
                 required
+                multiline
+                rowsMin={3}
                 value={personName}
                 onChange={handleChange}
                 input={<Input id='categories-chip' />}
@@ -50,23 +55,31 @@ export default function CategorySelect(...selectProps) {
                 )}
                 MenuProps={MenuProps}
             >
-                {names.map(name => (
-                    <MenuItem
-                        key={name}
-                        value={name}
-                        // style={getStyles(name, personName, theme)}
-                    >
-                        {name}
-                    </MenuItem>
-                ))}
+                {categories &&
+                    categories.map(({ title }) => (
+                        <MenuItem key={title} value={title}>
+                            {title}
+                        </MenuItem>
+                    ))}
             </Select>
         </FormControl>
     )
 }
 
 const useStyles = makeStyles(theme => ({
-    input: {
+    formControl: {
+        margin: theme.spacing(1),
         width: '100%',
+    },
+    chips: {
+        display: 'flex',
+        flexWrap: 'wrap',
+    },
+    chip: {
+        margin: 2,
+    },
+    noLabel: {
+        marginTop: theme.spacing(3),
     },
 }))
 

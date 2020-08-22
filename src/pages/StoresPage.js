@@ -36,7 +36,7 @@ export default function StoresPage() {
 const useStyles = makeStyles(theme => ({
     fab: {
         position: 'absolute',
-        bottom: theme.spacing(2),
-        right: theme.spacing(2),
+        bottom: theme.spacing(3),
+        right: theme.spacing(3),
     },
 }))

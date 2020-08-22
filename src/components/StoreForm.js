@@ -36,8 +36,8 @@ export default function StoreForm() {
                             src=''
                             id='logo'
                             round
-                            width={150}
-                            height={150}
+                            width={100}
+                            height={100}
                             title='Logo *'
                             required
                         />
@@ -48,7 +48,7 @@ export default function StoreForm() {
                             src=''
                             id='image'
                             width={200}
-                            height={150}
+                            height={100}
                             title='Store Image *'
                             required
                         />
@@ -95,7 +95,7 @@ export default function StoreForm() {
                         className={classes.input}
                         startIcon={<CloudUploadIcon />}
                     >
-                        Upload Store
+                        Publish
                     </Button>
                 </Grid>
             </Grid>

@@ -58,7 +58,7 @@ export default function Dashboard() {
                         noWrap
                         className={classes.title}
                     >
-                        Linkat Dashboard
+                        Linkat Admin Panel
                     </Typography>
                     <IconButton color='inherit'>
                         <Badge badgeContent={14} max={99} color='secondary'>
