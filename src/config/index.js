@@ -2,6 +2,7 @@ import firebase from 'firebase/app'
 import { createStore, combineReducers, compose } from 'redux'
 import 'firebase/auth'
 import 'firebase/firestore'
+import 'firebase/storage'
 import { firebaseReducer } from 'react-redux-firebase'
 import { createFirestoreInstance, firestoreReducer } from 'redux-firestore'
 
@@ -29,6 +30,7 @@ export const fb = firebase.initializeApp(firebaseConfig)
 
 // Initialize other services on firebase instance
 export const db = firebase.firestore() // <- needed if using firestore
+export const storage = firebase.storage()
 // firebase.functions() // <- needed if using httpsCallable
 
 // Add firebase to reducers

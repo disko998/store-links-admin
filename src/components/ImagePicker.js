@@ -29,13 +29,11 @@ export default function ImagePicker({
 
             reader.readAsDataURL(input.target.files[0])
         }
-
-        // return setImage(URL.createObjectURL(input.target.files[0]))
     }
 
     return (
         <div className={classes.logo} style={{ width, height }}>
-            <label for={name}>
+            <label htmlFor={name}>
                 <Avatar
                     alt={name}
                     variant={variant || 'circle'}

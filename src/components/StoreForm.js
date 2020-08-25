@@ -7,7 +7,7 @@ import CategorySelect from './CategorySelect'
 import ImagePicker from './ImagePicker'
 import { StoreSchema } from '../utils/validation'
 
-export default function StoreForm() {
+export default function StoreForm({ onSubmit }) {
     const classes = useStyles()
 
     const formik = useFormik({
@@ -21,8 +21,9 @@ export default function StoreForm() {
             image: '',
             categories: [],
         },
-        onSubmit: values => {
-            console.log(values)
+        onSubmit: (values, { resetForm }) => {
+            onSubmit(values)
+            resetForm()
         },
         validationSchema: StoreSchema,
         validateOnChange: false,

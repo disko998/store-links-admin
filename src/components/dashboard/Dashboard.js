@@ -90,7 +90,7 @@ export default function Dashboard() {
             </Drawer>
             <main className={classes.content}>
                 <div className={classes.appBarSpacer} />
-                <Container maxWidth='lg' className={classes.container}>
+                <Container maxWidth='md' className={classes.container}>
                     {/* Router */}
                     <MainRouter />
                 </Container>
