@@ -1,21 +1,34 @@
 import React from 'react'
-import { makeStyles } from '@material-ui/core/styles'
-import { Paper, Grid } from '@material-ui/core'
+import { Grid, Backdrop, CircularProgress, makeStyles } from '@material-ui/core'
 import { useFirestore } from 'react-redux-firebase'
 import { useHistory } from 'react-router-dom'
 
 import StoreForm from '../components/StoreForm'
-import Title from '../components/dashboard/Title'
 import { uploadStoreImages } from '../utils/firebase'
+import { AddStoreSchema } from '../utils/validation'
 
-export default function AddStorePage(pros) {
+const initialFormValue = {
+    name: '',
+    title: '',
+    whatsApp_number: '',
+    call_number: '',
+    order_link: '',
+    logo: '',
+    image: '',
+    categories: [],
+}
+
+export default function AddStorePage() {
     const history = useHistory()
-    const classes = useStyles()
     const firestore = useFirestore()
+    const classes = useStyles()
+
+    const [loading, setLoading] = React.useState(false)
 
     const handleSubmit = React.useCallback(
         async values => {
             try {
+                setLoading(true)
                 const storeRef = await firestore.add('stores', values)
 
                 const { logoURL, imageURL } = await uploadStoreImages(
@@ -29,43 +42,37 @@ export default function AddStorePage(pros) {
                     image: imageURL,
                 })
 
+                setLoading(false)
                 history.goBack()
             } catch (error) {
                 alert('Error ocurred, see logs for more details...')
                 console.log(error)
             }
         },
-        [firestore],
+        [firestore, history],
     )
 
     return (
         <Grid container spacing={3}>
             <Grid item xs={12}>
-                <Paper className={classes.paper}>
-                    <Title className={classes.title}>Upload New Store</Title>
-                    <StoreForm onSubmit={handleSubmit} />
-                </Paper>
+                <StoreForm
+                    onSubmit={handleSubmit}
+                    initialValues={initialFormValue}
+                    title='Upload New Store'
+                    buttonLabelText='Publish'
+                    validationSchema={AddStoreSchema}
+                />
+                <Backdrop className={classes.backdrop} open={loading}>
+                    <CircularProgress color='inherit' />
+                </Backdrop>
             </Grid>
         </Grid>
     )
 }
 
 const useStyles = makeStyles(theme => ({
-    paper: {
-        padding: theme.spacing(4),
-        display: 'flex',
-        overflow: 'auto',
-        flexDirection: 'column',
-        maxWidth: '50em',
-        margin: 'auto',
-    },
-    container: {
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        flexDirection: 'column',
-    },
-    title: {
-        marginBottom: '1em',
+    backdrop: {
+        zIndex: theme.zIndex.drawer + 1,
+        color: '#fff',
     },
 }))

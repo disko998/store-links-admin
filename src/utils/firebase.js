@@ -18,3 +18,20 @@ export const uploadStoreImages = async (storeId, logo, image) => {
         throw error
     }
 }
+
+export const updateStorePicture = async (storeId, picture) => {
+    try {
+        // get ref
+        const ref = storage.ref(`store/${storeId}`)
+
+        // store images
+        const snapshot = await ref.child('logo.png').putString(picture, 'data_url')
+
+        //get url
+        const pictureURL = await snapshot.ref.getDownloadURL()
+
+        return pictureURL
+    } catch (error) {
+        throw error
+    }
+}
