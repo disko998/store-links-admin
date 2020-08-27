@@ -1,20 +1,16 @@
 import React from 'react'
 import { Grid, CircularProgress, Box, IconButton } from '@material-ui/core'
 import { useFirestore } from 'react-redux-firebase'
-import { useHistory, useLocation, useParams } from 'react-router-dom'
+import { useHistory, useParams } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 
 import EditIcon from '@material-ui/icons/Edit'
-import StarsIcon from '@material-ui/icons/Stars'
-import DeleteIcon from '@material-ui/icons/Delete'
-import LocalOfferIcon from '@material-ui/icons/LocalOffer'
-import VisibilityIcon from '@material-ui/icons/Visibility'
-import VisibilityOffIcon from '@material-ui/icons/VisibilityOff'
 
 import AlertDialog from '../components/AlertDialog'
 import StoreForm from '../components/StoreForm'
-import { uploadStoreImages, updateStorePicture } from '../utils/firebase'
+import { updateImageFile } from '../utils/firebase'
 import { EditStoreSchema } from '../utils/validation'
+import Store from '../components/Store'
 
 export default function EditStorePage() {
     let { id } = useParams()
@@ -39,23 +35,6 @@ export default function EditStorePage() {
         [store],
     )
 
-    const handleSubmit = React.useCallback(
-        async values => {
-            try {
-                await firestore.update(`stores/${id}`, values)
-                setEditable(false)
-            } catch (error) {
-                alert('Error ocurred, see logs for more details...')
-                console.log(error)
-            }
-        },
-        [firestore, id],
-    )
-
-    const onEdit = React.useCallback(() => {
-        setEditable(state => !state)
-    }, [])
-
     const updateStore = React.useCallback(
         async data => {
             try {
@@ -67,6 +46,18 @@ export default function EditStorePage() {
         },
         [firestore, id],
     )
+
+    const handleSubmit = React.useCallback(
+        async values => {
+            await updateStore(values)
+            setEditable(false)
+        },
+        [updateStore],
+    )
+
+    const onEdit = React.useCallback(() => {
+        setEditable(state => !state)
+    }, [])
 
     const onDelete = React.useCallback(async () => {
         try {
@@ -83,6 +74,21 @@ export default function EditStorePage() {
         setDialog(state => !state)
     }, [])
 
+    const handleImageChange = React.useCallback(
+        async e => {
+            try {
+                const file = e.target.files[0]
+                const link = await updateImageFile(id, file, e.target.name)
+
+                await updateStore(link)
+            } catch (error) {
+                alert('Error ocurred, see logs for more details...')
+                console.log(error)
+            }
+        },
+        [id, updateStore],
+    )
+
     if (!store) {
         return (
             <Box justifyContent='center' display='flex'>
@@ -94,6 +100,18 @@ export default function EditStorePage() {
     return (
         <Grid container spacing={3}>
             <Grid item xs={12}>
+                <Store
+                    handleImageChange={handleImageChange}
+                    store={store}
+                    editable={editable}
+                    onEdit={onEdit}
+                    onPin={() => updateStore({ pinned: !store.pinned })}
+                    onUnique={() => updateStore({ unique: !store.unique })}
+                    onHide={() => updateStore({ hidden: !store.hidden })}
+                    onDelete={toggleDialog}
+                />
+            </Grid>
+            <Grid item xs={12}>
                 <StoreForm
                     onSubmit={handleSubmit}
                     initialValues={initialValues}
@@ -104,15 +122,14 @@ export default function EditStorePage() {
                     noReset
                     validationSchema={EditStoreSchema}
                     renderSuffix={
-                        <AdminButtons
-                            store={store}
-                            editable={editable}
-                            onEdit={onEdit}
-                            onPin={() => updateStore({ pinned: !store.pinned })}
-                            onUnique={() => updateStore({ unique: !store.unique })}
-                            onHide={() => updateStore({ hidden: !store.hidden })}
-                            onDelete={toggleDialog}
-                        />
+                        <IconButton aria-label='edit' onClick={onEdit}>
+                            <EditIcon
+                                style={{
+                                    color: editable ? '#357a38' : '#9e9e9e',
+                                    fontSize: 30,
+                                }}
+                            />
+                        </IconButton>
                     }
                 />
             </Grid>
@@ -125,45 +142,5 @@ export default function EditStorePage() {
                 message={`Are you sure you want to delete this store, this is a permanent action and cannot be undone.`}
             />
         </Grid>
-    )
-}
-
-export function AdminButtons({
-    store,
-    editable,
-    onEdit,
-    onUnique,
-    onDelete,
-    onPin,
-    onHide,
-}) {
-    return (
-        <Box aria-label='admin buttons'>
-            <IconButton aria-label='edit' onClick={onEdit}>
-                <EditIcon
-                    style={{ color: editable ? '#357a38' : '#9e9e9e', fontSize: 25 }}
-                />
-            </IconButton>
-            <IconButton aria-label='pin' onClick={onPin}>
-                <LocalOfferIcon
-                    style={{ color: store.pinned ? '#3d5afe' : '#9e9e9e', fontSize: 25 }}
-                />
-            </IconButton>
-            <IconButton aria-label='unique' onClick={onUnique}>
-                <StarsIcon
-                    style={{ color: store.unique ? '#ffc107' : '#9e9e9e', fontSize: 25 }}
-                />
-            </IconButton>
-            <IconButton aria-label='hide' onClick={onHide}>
-                {store.hidden ? (
-                    <VisibilityOffIcon style={{ color: '#9e9e9e', fontSize: 25 }} />
-                ) : (
-                    <VisibilityIcon style={{ color: '#35baf6', fontSize: 25 }} />
-                )}
-            </IconButton>
-            <IconButton aria-label='delete' onClick={onDelete}>
-                <DeleteIcon style={{ color: '#b2102f', fontSize: 25 }} />
-            </IconButton>
-        </Box>
     )
 }

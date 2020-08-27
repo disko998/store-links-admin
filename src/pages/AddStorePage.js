@@ -6,6 +6,8 @@ import { useHistory } from 'react-router-dom'
 import StoreForm from '../components/StoreForm'
 import { uploadStoreImages } from '../utils/firebase'
 import { AddStoreSchema } from '../utils/validation'
+import Store from '../components/Store'
+import { store } from '../config'
 
 const initialFormValue = {
     name: '',
