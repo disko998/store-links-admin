@@ -2,8 +2,10 @@ import React from 'react'
 import { Switch, Route, useLocation } from 'react-router-dom'
 
 import routes from './routes'
-import DashboardPage from '../pages/DashboardPage'
 import StoreStack from './StoreStack'
+import DashboardPage from '../pages/DashboardPage'
+import CategoriesPage from '../pages/CategoriesPage'
+import CountriesPage from '../pages/CountriesPage'
 
 export default function MainRouter() {
     return (
@@ -24,10 +26,10 @@ export default function MainRouter() {
                 <Development />
             </Route>
             <Route path={routes.CATEGORIES}>
-                <Development />
+                <CategoriesPage />
             </Route>
             <Route path={routes.COUNTRY}>
-                <Development />
+                <CountriesPage />
             </Route>
         </Switch>
     )

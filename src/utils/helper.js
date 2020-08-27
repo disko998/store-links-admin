@@ -22,3 +22,19 @@ export function dataURItoBlob(dataURI) {
     //New Code
     return new Blob([ab], { type: mimeString })
 }
+
+// export const asyncHandler = fn => () => {
+//     Promise.resolve(fn()).catch(err => {
+//         alert('Error')
+//         console.log(err)
+//     })
+// }
+
+export const asyncHandler = fn => async (...args) => {
+    try {
+        await fn(...args)
+    } catch (error) {
+        alert('Error ocurred, see logs for more details...')
+        console.log(error)
+    }
+}

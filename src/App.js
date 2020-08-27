@@ -6,7 +6,11 @@ import './App.css'
 import MainPage from './pages/MainPage'
 
 function App() {
-    useFirestoreConnect([{ collection: 'stores' }, { collection: 'categories' }])
+    useFirestoreConnect([
+        { collection: 'stores' },
+        { collection: 'categories' },
+        { collection: 'countries' },
+    ])
 
     return (
         <BrowserRouter>
