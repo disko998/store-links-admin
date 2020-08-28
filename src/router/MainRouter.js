@@ -6,6 +6,7 @@ import StoreStack from './StoreStack'
 import DashboardPage from '../pages/DashboardPage'
 import CategoriesPage from '../pages/CategoriesPage'
 import CountriesPage from '../pages/CountriesPage'
+import RequestsPage from '../pages/RequestsPage'
 
 export default function MainRouter() {
     return (
@@ -20,7 +21,7 @@ export default function MainRouter() {
                 <Development />
             </Route>
             <Route path={routes.REQUESTS}>
-                <Development />
+                <RequestsPage />
             </Route>
             <Route path={routes.ADS}>
                 <Development />
