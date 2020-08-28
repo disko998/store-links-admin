@@ -1,23 +1,21 @@
 import React from 'react'
-import { Grid, CircularProgress, Box, IconButton } from '@material-ui/core'
+import { Grid, CircularProgress, Box } from '@material-ui/core'
 import { useFirestore } from 'react-redux-firebase'
 import { useHistory, useParams } from 'react-router-dom'
 import { useSelector } from 'react-redux'
-
-import EditIcon from '@material-ui/icons/Edit'
 
 import AlertDialog from '../components/AlertDialog'
 import StoreForm from '../components/StoreForm'
 import { updateImageFile } from '../utils/firebase'
 import { EditStoreSchema } from '../utils/validation'
-import Store from '../components/Store'
+import StoreCard from '../components/StoreCard'
 
-export default function EditStorePage() {
+export default function StorePage() {
     let { id } = useParams()
     const history = useHistory()
     const firestore = useFirestore()
 
-    const [editable, setEditable] = React.useState(false)
+    const [expanded, setExpanded] = React.useState(false)
     const [dialog, setDialog] = React.useState(false)
 
     const store = useSelector(({ firestore: { data } }) => data.stores && data.stores[id])
@@ -50,14 +48,10 @@ export default function EditStorePage() {
     const handleSubmit = React.useCallback(
         async values => {
             await updateStore(values)
-            setEditable(false)
+            setExpanded(false)
         },
         [updateStore],
     )
-
-    const onEdit = React.useCallback(() => {
-        setEditable(state => !state)
-    }, [])
 
     const onDelete = React.useCallback(async () => {
         try {
@@ -89,6 +83,10 @@ export default function EditStorePage() {
         [id, updateStore],
     )
 
+    const handleExpandClick = () => {
+        setExpanded(!expanded)
+    }
+
     if (!store) {
         return (
             <Box justifyContent='center' display='flex'>
@@ -98,40 +96,28 @@ export default function EditStorePage() {
     }
 
     return (
-        <Grid container spacing={3}>
+        <Grid container spacing={3} style={{ minHeight: 1200 }}>
             <Grid item xs={12}>
-                <Store
+                <StoreCard
+                    expanded={expanded}
+                    handleExpandClick={handleExpandClick}
                     handleImageChange={handleImageChange}
                     store={store}
-                    editable={editable}
-                    onEdit={onEdit}
                     onPin={() => updateStore({ pinned: !store.pinned })}
                     onUnique={() => updateStore({ unique: !store.unique })}
                     onHide={() => updateStore({ hidden: !store.hidden })}
                     onDelete={toggleDialog}
-                />
-            </Grid>
-            <Grid item xs={12}>
-                <StoreForm
-                    onSubmit={handleSubmit}
-                    initialValues={initialValues}
-                    title='Edit Store'
-                    buttonLabelText='Update store'
-                    disabled={!editable}
-                    hideImages
-                    noReset
-                    validationSchema={EditStoreSchema}
-                    renderSuffix={
-                        <IconButton aria-label='edit' onClick={onEdit}>
-                            <EditIcon
-                                style={{
-                                    color: editable ? '#357a38' : '#9e9e9e',
-                                    fontSize: 30,
-                                }}
-                            />
-                        </IconButton>
-                    }
-                />
+                >
+                    <StoreForm
+                        onSubmit={handleSubmit}
+                        initialValues={initialValues}
+                        title='Edit Store'
+                        buttonLabelText='Update store'
+                        hideImages
+                        noReset
+                        validationSchema={EditStoreSchema}
+                    />
+                </StoreCard>
             </Grid>
             <AlertDialog
                 handleClose={toggleDialog}
