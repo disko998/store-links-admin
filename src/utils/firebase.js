@@ -35,3 +35,15 @@ export const updateImageFile = async (storeId, picture, pathname) => {
         throw error
     }
 }
+
+export const deleteFileStory = async folder => {
+    try {
+        const ref = storage.ref('story')
+
+        console.log(ref)
+
+        return await ref.child(folder).delete()
+    } catch (error) {
+        throw error
+    }
+}

@@ -12,7 +12,7 @@ import {
     Badge,
     Container,
 } from '@material-ui/core'
-import { useHistory } from 'react-router-dom'
+import { useHistory, useLocation } from 'react-router-dom'
 
 import MenuIcon from '@material-ui/icons/Menu'
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft'
@@ -26,6 +26,7 @@ import routes from '../../router/routes'
 
 export default function Dashboard() {
     const history = useHistory()
+    const { pathname } = useLocation()
     const classes = useDashboardStyles()
     const [open, setOpen] = React.useState(true)
     const requests = useSelector(state => state.firestore.ordered.requests)
@@ -73,7 +74,7 @@ export default function Dashboard() {
                         noWrap
                         className={classes.title}
                     >
-                        Linkat Admin Panel
+                        {pathname}
                     </Typography>
                     <IconButton color='inherit' onClick={openRequests}>
                         <Badge badgeContent={notifications} max={99} color='secondary'>
@@ -107,6 +108,7 @@ export default function Dashboard() {
                 <div className={classes.appBarSpacer} />
                 <Container maxWidth='md' className={classes.container}>
                     {/* Router */}
+
                     <MainRouter />
                 </Container>
             </main>

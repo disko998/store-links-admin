@@ -18,6 +18,7 @@ import DeleteIcon from '@material-ui/icons/Delete'
 import LocalOfferIcon from '@material-ui/icons/LocalOffer'
 import VisibilityIcon from '@material-ui/icons/Visibility'
 import VisibilityOffIcon from '@material-ui/icons/VisibilityOff'
+import EditIcon from '@material-ui/icons/Edit'
 
 const ICON_SIZE = 25
 
@@ -129,7 +130,7 @@ export default function StoreCard({
                     aria-label='show more'
                     style={{ fontSize: ICON_SIZE }}
                 >
-                    <ExpandMoreIcon />
+                    <EditIcon />
                 </IconButton>
             </CardActions>
 
@@ -159,6 +160,7 @@ const useStyles = makeStyles(theme => ({
     },
     expandOpen: {
         transform: 'rotate(180deg)',
+        color: 'green',
     },
     avatar: {
         backgroundColor: red[500],
