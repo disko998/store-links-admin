@@ -74,7 +74,9 @@ export default function Dashboard() {
                         noWrap
                         className={classes.title}
                     >
-                        {pathname}
+                        {pathname === '/'
+                            ? 'dashboard'
+                            : pathname.slice(1, pathname.length)}
                     </Typography>
                     <IconButton color='inherit' onClick={openRequests}>
                         <Badge badgeContent={notifications} max={99} color='secondary'>
