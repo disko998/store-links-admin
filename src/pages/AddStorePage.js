@@ -26,15 +26,33 @@ export default function AddStorePage() {
     const [loading, setLoading] = React.useState(false)
 
     const handleSubmit = React.useCallback(
-        async values => {
+        async ({
+            name,
+            title,
+            order_link,
+            call_number,
+            categories,
+            whatsApp_number,
+            logo,
+            image,
+            locations,
+        }) => {
             try {
                 setLoading(true)
-                const storeRef = await firestore.add('stores', values)
+                const storeRef = await firestore.add('stores', {
+                    name,
+                    title,
+                    order_link,
+                    call_number,
+                    categories,
+                    whatsApp_number,
+                    locations,
+                })
 
                 const { logoURL, imageURL } = await uploadStoreImages(
                     storeRef.id,
-                    values.logo,
-                    values.image,
+                    logo,
+                    image,
                 )
 
                 await firestore.update(`stores/${storeRef.id}`, {
@@ -42,11 +60,12 @@ export default function AddStorePage() {
                     image: imageURL,
                 })
 
-                setLoading(false)
                 history.goBack()
             } catch (error) {
-                alert('Error ocurred, see logs for more details...')
+                alert(`Error ocurred, ${error.message}`)
                 console.log(error)
+            } finally {
+                setLoading(false)
             }
         },
         [firestore, history],

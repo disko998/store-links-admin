@@ -10,6 +10,9 @@ import {
 } from '@material-ui/core'
 import CloudUploadIcon from '@material-ui/icons/CloudUpload'
 import { useFormik } from 'formik'
+import Chip from '@material-ui/core/Chip'
+import LocationSearchingIcon from '@material-ui/icons/LocationSearching'
+import { useFirestore } from 'react-redux-firebase'
 
 import Title from './dashboard/Title'
 import CategorySelect from './CategorySelect'
@@ -26,18 +29,62 @@ export default function StoreForm({
     renderSuffix,
     validationSchema,
 }) {
+    const firestore = useFirestore()
     const classes = useStyles()
+    const [locations, setLocations] = React.useState(initialValues.locations || [])
+    const [location, setLocation] = React.useState({
+        latitude: '',
+        longitude: '',
+    })
+
+    const onLocationChange = React.useCallback(
+        e => {
+            setLocation({ ...location, [e.target.name]: e.target.value })
+        },
+        [location],
+    )
 
     const formik = useFormik({
         initialValues,
         onSubmit: (values, { resetForm }) => {
-            onSubmit(values)
+            onSubmit({
+                ...values,
+                locations,
+            })
             !noReset && resetForm()
         },
         validationSchema,
         validateOnChange: false,
         validateOnBlur: false,
     })
+
+    const addLocation = React.useCallback(() => {
+        try {
+            const latitude = parseFloat(location.latitude)
+            const longitude = parseFloat(location.longitude)
+            if (latitude && longitude) {
+                setLocations([...locations, new firestore.GeoPoint(latitude, longitude)])
+                setLocation({
+                    latitude: '',
+                    longitude: '',
+                })
+            }
+        } catch (error) {
+            alert(error.message)
+            console.log(error)
+        }
+    }, [location, locations, firestore])
+
+    const removeLocation = React.useCallback(
+        index => {
+            setLocations(locations.filter((l, i) => i !== index))
+        },
+        [locations],
+    )
+
+    const newLocation = React.useMemo(() => location.latitude && location.longitude, [
+        location,
+    ])
 
     return (
         <Paper className={classes.paper}>
@@ -186,6 +233,75 @@ export default function StoreForm({
                                     {formik.errors.order_link}
                                 </FormHelperText>
                             </Grid>
+
+                            <Grid item xs={12} sm={4}>
+                                <TextField
+                                    disabled={disabled}
+                                    className={classes.input}
+                                    id='latitude'
+                                    name='latitude'
+                                    label='Latitude'
+                                    type='number'
+                                    variant='outlined'
+                                    value={location.latitude}
+                                    onChange={onLocationChange}
+                                    // error={formik.errors.locations}
+                                />
+                                {/* <FormHelperText error={formik.errors.locations}>
+                                    {formik.errors.locations}
+                                </FormHelperText> */}
+                            </Grid>
+                            <Grid item xs={12} sm={4}>
+                                <TextField
+                                    disabled={disabled}
+                                    className={classes.input}
+                                    id='longitude'
+                                    name='longitude'
+                                    label='Longitude'
+                                    type='number'
+                                    variant='outlined'
+                                    value={location.longitude}
+                                    onChange={onLocationChange}
+                                    // error={formik.errors.locations}
+                                />
+                                {/* <FormHelperText error={formik.errors.locations}>
+                                    {formik.errors.locations}
+                                </FormHelperText> */}
+                            </Grid>
+
+                            <Grid
+                                item
+                                xs={12}
+                                sm={4}
+                                justify='center'
+                                alignItems='center'
+                                style={{ display: 'flex' }}
+                            >
+                                <Button
+                                    disabled={disabled || !newLocation}
+                                    variant='contained'
+                                    color='primary'
+                                    size='large'
+                                    className={classes.input}
+                                    startIcon={<LocationSearchingIcon />}
+                                    onClick={addLocation}
+                                >
+                                    Add location
+                                </Button>
+                            </Grid>
+                            {locations.length ? (
+                                <Grid item sm={12}>
+                                    Locations:{' '}
+                                    {locations.map((location, i) => (
+                                        <Chip
+                                            key={location.longitude}
+                                            style={{ margin: 5 }}
+                                            label={`${location.latitude}, ${location.longitude}`}
+                                            onDelete={() => removeLocation(i)}
+                                        />
+                                    ))}
+                                </Grid>
+                            ) : null}
 
                             {/* Categories */}
                             <Grid item xs={12} sm={12}>

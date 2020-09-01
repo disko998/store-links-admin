@@ -29,6 +29,7 @@ export default function StorePage() {
                 call_number: store.call_number,
                 order_link: store.order_link,
                 categories: store.categories,
+                locations: store.locations,
             },
         [store],
     )
