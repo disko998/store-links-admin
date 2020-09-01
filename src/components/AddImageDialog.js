@@ -47,6 +47,7 @@ export default function AddImageDialog({ state, handleClose }) {
                 storeId: state.id,
                 logo: state.logo,
                 name: state.name,
+                order_link: state.order_link,
                 images: uploadedFiles,
             }
 
