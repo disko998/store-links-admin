@@ -49,10 +49,13 @@ export default function Inbox({ requests, onItemPress }) {
         )
     }
 
+    // unfreeze array
+    const reverseRequests = requests.map(r => r).reverse()
+
     return (
         <Paper className={classes.root}>
             <List>
-                {requests.map(request => (
+                {reverseRequests.map(request => (
                     <React.Fragment key={request.id}>
                         <ListItem
                             button
