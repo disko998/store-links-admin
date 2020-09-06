@@ -47,6 +47,9 @@ export default function AddStorePage() {
                     categories,
                     whatsApp_number,
                     locations,
+                    hidden: false,
+                    unique: false,
+                    createdAt: new Date(),
                 })
 
                 const { logoURL, imageURL } = await uploadStoreImages(
