@@ -15,13 +15,11 @@ export default function Deposits() {
     const classes = useStyles()
     const stores = useSelector(state => state.firestore.ordered.stores)
 
-    const storesNumber = stores ? stores.length : 'calculating...'
-
     return (
         <React.Fragment>
             <Title>Total Stores</Title>
             <Typography component='p' variant='h4'>
-                {storesNumber}
+                {stores && stores.length}
             </Typography>
             <Typography color='textSecondary' className={classes.depositContext}>
                 {new Date().toDateString()}

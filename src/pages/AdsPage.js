@@ -47,6 +47,8 @@ export default function AdsPage() {
         asyncHandler(async () => {
             db.collection('ads').doc('ad').set({
                 storeId: store.id,
+                storeName: store.name,
+                storeLogo: store.logo,
                 image: uploadedFile,
                 show: true,
                 updatedAt: new Date(),

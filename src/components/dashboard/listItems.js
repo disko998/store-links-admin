@@ -45,7 +45,7 @@ export const MainListItems = () => {
                 <ListItemIcon>
                     <LayersIcon />
                 </ListItemIcon>
-                <ListItemText primary='Ads' />
+                <ListItemText primary='Create Ad' />
             </ListItem>
         </div>
     )

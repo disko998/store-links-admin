@@ -110,7 +110,6 @@ export default function Dashboard() {
                 <div className={classes.appBarSpacer} />
                 <Container maxWidth='md' className={classes.container}>
                     {/* Router */}
-
                     <MainRouter />
                 </Container>
             </main>

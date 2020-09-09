@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import MaterialTable from 'material-table'
 import { useSelector } from 'react-redux'
 import { useFirestore } from 'react-redux-firebase'
@@ -10,12 +10,14 @@ const columns = [
     { title: 'ID', field: 'id', editable: 'never' },
     { title: 'Title', field: 'title' },
     { title: 'Icon', field: 'icon' },
+    { title: 'Stores', field: 'stores', editable: 'never' },
 ]
 
 export default function CategoriesPage() {
     // hooks
     const firestore = useFirestore()
     const categories = useSelector(state => state.firestore.ordered.categories)
+    const stores = useSelector(state => state.firestore.ordered.stores)
 
     // callback handlers
     const addCategory = React.useCallback(
@@ -37,12 +39,24 @@ export default function CategoriesPage() {
         [firestore],
     )
 
+    const data = useMemo(
+        () =>
+            categories &&
+            categories.map(c => ({
+                ...c,
+                stores: stores.filter(s => s.categories.includes(c.title)).length,
+            })),
+        [categories, stores],
+    )
+
+    console.log(data)
+
     return (
         <MaterialTable
             icons={TableIcons}
             title='Edit Categories'
             columns={columns}
-            data={categories && categories.map(o => ({ ...o }))}
+            data={data}
             isLoading={!categories}
             editable={{
                 onRowAdd: addCategory,
