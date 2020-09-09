@@ -1,7 +1,7 @@
 import React from 'react'
 
 import StoresList from '../components/StoresList'
-import AddImageDialog from '../components/AddImageDialog'
+import AddStoryDialog from '../components/AddStoryDialog'
 
 export default function AddStoryPage() {
     const [story, setStory] = React.useState(null)
@@ -17,7 +17,7 @@ export default function AddStoryPage() {
     return (
         <>
             <StoresList onItemPress={onItemPress} />
-            <AddImageDialog handleClose={handleClose} state={story} />
+            <AddStoryDialog handleClose={handleClose} state={story} />
         </>
     )
 }

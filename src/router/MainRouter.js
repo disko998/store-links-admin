@@ -1,9 +1,10 @@
 import React from 'react'
 import { Switch, Route, useLocation } from 'react-router-dom'
-
 import routes from './routes'
+
 import StoreStack from './StoreStack'
 import StoryStack from './StoryStack'
+import AdsStack from './AdsStack'
 
 import DashboardPage from '../pages/DashboardPage'
 import CategoriesPage from '../pages/CategoriesPage'
@@ -26,7 +27,7 @@ export default function MainRouter() {
                 <RequestsPage />
             </Route>
             <Route path={routes.ADS}>
-                <Development />
+                <AdsStack />
             </Route>
             <Route path={routes.CATEGORIES}>
                 <CategoriesPage />

@@ -2,7 +2,7 @@ import React from 'react'
 import Dropzone from 'react-dropzone'
 import { makeStyles, Box } from '@material-ui/core'
 
-export default function Uploader({ uploadedFiles, onFilesDrop }) {
+export default function Uploader({ uploadedFiles, onFilesDrop, multiple, imageWidth }) {
     const classes = useStyles()
 
     return (
@@ -20,13 +20,16 @@ export default function Uploader({ uploadedFiles, onFilesDrop }) {
                         {uploadedFiles.map(url => (
                             <div
                                 className={classes.imageBox}
-                                style={{ backgroundImage: `url(${url})` }}
+                                style={{
+                                    backgroundImage: `url(${url})`,
+                                    width: imageWidth || 150,
+                                }}
                             ></div>
                         ))}
                     </Box>
                 </div>
             ) : (
-                <Dropzone accept='image/*' multiple='multiple' onDrop={onFilesDrop}>
+                <Dropzone accept='image/*' multiple={multiple} onDrop={onFilesDrop}>
                     {({ getRootProps, getInputProps }) => (
                         <div {...getRootProps()} className={classes.dropZone}>
                             <input {...getInputProps()} />
@@ -51,18 +54,16 @@ const useStyles = makeStyles({
         display: 'flex',
         alignItems: 'center',
         padding: 20,
+        borderRadius: 5,
     },
-    image: {
-        width: '100%',
-        height: '100%',
-    },
+
     imageBox: {
-        width: 150,
         height: 200,
         overflow: 'hidden',
         margin: 10,
         backgroundRepeat: ' no-repeat',
         backgroundPosition: 'center',
         backgroundSize: 'cover',
+        borderRadius: 5,
     },
 })

@@ -1,7 +1,7 @@
 import React from 'react'
 import { useFirebase, useFirestore } from 'react-redux-firebase'
 
-import { withStyles, makeStyles } from '@material-ui/core/styles'
+import { withStyles } from '@material-ui/core/styles'
 import Button from '@material-ui/core/Button'
 import Dialog from '@material-ui/core/Dialog'
 import MuiDialogTitle from '@material-ui/core/DialogTitle'
@@ -15,7 +15,7 @@ import { asyncHandler } from '../utils/helper'
 import Uploader from './Uploader'
 import { useHistory } from 'react-router-dom'
 
-export default function AddImageDialog({ state, handleClose }) {
+export default function AddStoryDialog({ state, handleClose }) {
     const history = useHistory()
     const firebase = useFirebase()
     const firestore = useFirestore()
@@ -59,13 +59,6 @@ export default function AddImageDialog({ state, handleClose }) {
         [state, uploadedFiles, onClose, history],
     )
 
-    const onFileDelete = React.useCallback(
-        asyncHandler(async file => {
-            firebase.deleteFile(file)
-        }),
-        [],
-    )
-
     if (!state) {
         return null
     }
@@ -80,7 +73,11 @@ export default function AddImageDialog({ state, handleClose }) {
                 {state.name}
             </DialogTitle>
             <DialogContent dividers>
-                <Uploader onFilesDrop={onFilesDrop} uploadedFiles={uploadedFiles} />
+                <Uploader
+                    onFilesDrop={onFilesDrop}
+                    uploadedFiles={uploadedFiles}
+                    multiple
+                />
             </DialogContent>
             <DialogActions>
                 <Button
@@ -106,14 +103,6 @@ const styles = theme => ({
         right: theme.spacing(1),
         top: theme.spacing(1),
         color: theme.palette.grey[500],
-    },
-})
-
-const useStyles = makeStyles({
-    add: {
-        '& label': {
-            cursor: 'pointer',
-        },
     },
 })
 

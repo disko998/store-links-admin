@@ -9,7 +9,6 @@ import Skeleton from '@material-ui/lab/Skeleton'
 import routes from '../router/routes'
 import SimpleDialog from '../components/dashboard/SimpleDialog'
 import { asyncHandler } from '../utils/helper'
-import { deleteFileStory } from '../utils/firebase'
 
 export default function StoryPage() {
     useFirestoreConnect([{ collection: 'story' }])
@@ -36,8 +35,6 @@ export default function StoryPage() {
     const removeStory = React.useCallback(
         asyncHandler(async ({ id, storeId }) => {
             await firestore.delete(`story/${id}`)
-
-            // await deleteFileStory(storeId)
         }),
         [firestore],
     )

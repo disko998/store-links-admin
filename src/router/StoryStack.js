@@ -1,5 +1,5 @@
 import React from 'react'
-import { Switch, Route, useLocation } from 'react-router-dom'
+import { Switch, Route } from 'react-router-dom'
 
 import routes from './routes'
 import StoryPage from '../pages/StoryPage'
@@ -15,15 +15,5 @@ export default function StoryStack() {
                 <AddStoryPage />
             </Route>
         </Switch>
-    )
-}
-
-function Development(props) {
-    let location = useLocation()
-
-    return (
-        <div>
-            <h2>"{location.pathname}" is in development</h2>
-        </div>
     )
 }
