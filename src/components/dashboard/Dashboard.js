@@ -12,6 +12,7 @@ import {
     Badge,
     Container,
 } from '@material-ui/core'
+import { useHistory, useLocation } from 'react-router-dom'
 
 import MenuIcon from '@material-ui/icons/Menu'
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft'
@@ -20,16 +21,31 @@ import NotificationsIcon from '@material-ui/icons/Notifications'
 import { MainListItems, SecondaryListItems } from './listItems'
 import { useDashboardStyles } from './styles'
 import MainRouter from '../../router/MainRouter'
+import { useSelector } from 'react-redux'
+import routes from '../../router/routes'
 
 export default function Dashboard() {
+    const history = useHistory()
+    const { pathname } = useLocation()
     const classes = useDashboardStyles()
     const [open, setOpen] = React.useState(true)
+    const requests = useSelector(state => state.firestore.ordered.requests)
+
     const handleDrawerOpen = () => {
         setOpen(true)
     }
     const handleDrawerClose = () => {
         setOpen(false)
     }
+
+    const notifications = React.useMemo(
+        () => (requests ? requests.filter(r => !r.read).length : 0),
+        [requests],
+    )
+
+    const openRequests = React.useCallback(() => {
+        history.push(routes.REQUESTS)
+    }, [history])
 
     return (
         <div className={classes.root}>
@@ -58,10 +74,12 @@ export default function Dashboard() {
                         noWrap
                         className={classes.title}
                     >
-                        Linkat Admin Panel
+                        {pathname === '/'
+                            ? 'dashboard'
+                            : pathname.slice(1, pathname.length)}
                     </Typography>
-                    <IconButton color='inherit'>
-                        <Badge badgeContent={14} max={99} color='secondary'>
+                    <IconButton color='inherit' onClick={openRequests}>
+                        <Badge badgeContent={notifications} max={99} color='secondary'>
                             <NotificationsIcon />
                         </Badge>
                     </IconButton>

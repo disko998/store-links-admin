@@ -3,29 +3,31 @@ import { Grid, Fab, makeStyles } from '@material-ui/core'
 
 import AddIcon from '@material-ui/icons/Add'
 
-import StoresListHeader from '../components/StoresListHeader'
 import StoresList from '../components/StoresList'
 import { useRouteMatch, useHistory } from 'react-router-dom'
+import routes from '../router/routes'
 
 export default function StoresPage() {
     const classes = useStyles()
     const { url } = useRouteMatch()
     const history = useHistory()
 
+    const onItemPress = React.useCallback(
+        store => {
+            history.push(`${url}${routes.VIEW_STORE}/${store.id}`, store)
+        },
+        [history, url],
+    )
+
     return (
-        <Grid container spacing={3}>
-            <Grid item xs={12}>
-                <StoresListHeader />
-            </Grid>
-            <Grid item xs={12}>
-                <StoresList />
-            </Grid>
+        <Grid>
+            <StoresList onItemPress={onItemPress} />
             <Fab
                 className={classes.fab}
                 size='large'
                 color='primary'
                 aria-label='add new store'
-                onClick={() => history.push(`${url}/add`)}
+                onClick={() => history.push(`${url}${routes.ADD}`)}
             >
                 <AddIcon />
             </Fab>

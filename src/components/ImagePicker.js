@@ -12,10 +12,11 @@ export default function ImagePicker({
     height,
     variant,
     error,
+    img,
     ...inputProps
 }) {
     const classes = useStyles({ error })
-    const [image, setImage] = React.useState('')
+    const [image, setImage] = React.useState(img || '')
 
     const handleOnChange = input => {
         handleImageChange(input)

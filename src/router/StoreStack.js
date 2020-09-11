@@ -17,7 +17,7 @@ export default function StoreStack() {
             <Route path={`${path}${routes.VIEW_STORE}/:id`}>
                 <StorePage />
             </Route>
-            <Route path={`${path}${routes.ADD_STORE}`}>
+            <Route path={`${path}${routes.ADD}`}>
                 <AddStorePage />
             </Route>
         </Switch>

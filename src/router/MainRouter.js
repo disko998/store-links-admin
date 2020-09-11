@@ -1,9 +1,15 @@
 import React from 'react'
 import { Switch, Route, useLocation } from 'react-router-dom'
-
 import routes from './routes'
-import DashboardPage from '../pages/DashboardPage'
+
 import StoreStack from './StoreStack'
+import StoryStack from './StoryStack'
+import AdsStack from './AdsStack'
+
+import DashboardPage from '../pages/DashboardPage'
+import CategoriesPage from '../pages/CategoriesPage'
+import CountriesPage from '../pages/CountriesPage'
+import RequestsPage from '../pages/RequestsPage'
 
 export default function MainRouter() {
     return (
@@ -15,19 +21,19 @@ export default function MainRouter() {
                 <StoreStack />
             </Route>
             <Route path={routes.STORY}>
-                <Development />
+                <StoryStack />
             </Route>
             <Route path={routes.REQUESTS}>
-                <Development />
+                <RequestsPage />
             </Route>
             <Route path={routes.ADS}>
-                <Development />
+                <AdsStack />
             </Route>
             <Route path={routes.CATEGORIES}>
-                <Development />
+                <CategoriesPage />
             </Route>
             <Route path={routes.COUNTRY}>
-                <Development />
+                <CountriesPage />
             </Route>
         </Switch>
     )
