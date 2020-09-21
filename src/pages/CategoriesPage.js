@@ -44,12 +44,11 @@ export default function CategoriesPage() {
             categories &&
             categories.map(c => ({
                 ...c,
-                stores: stores.filter(s => s.categories.includes(c.title)).length,
+                stores: stores.filter(s => s.categories.includes(c.title))
+                    .length,
             })),
         [categories, stores],
     )
-
-    console.log(data)
 
     return (
         <MaterialTable

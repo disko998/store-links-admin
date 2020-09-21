@@ -16,6 +16,7 @@ const initialFormValue = {
     logo: '',
     image: '',
     categories: [],
+    country: '',
 }
 
 export default function AddStorePage() {
@@ -36,6 +37,7 @@ export default function AddStorePage() {
             logo,
             image,
             locations,
+            country,
         }) => {
             try {
                 setLoading(true)
@@ -45,6 +47,7 @@ export default function AddStorePage() {
                     order_link,
                     call_number,
                     categories,
+                    country,
                     whatsApp_number,
                     locations,
                     hidden: false,

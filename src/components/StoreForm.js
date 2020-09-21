@@ -17,6 +17,7 @@ import { useFirestore } from 'react-redux-firebase'
 import Title from './dashboard/Title'
 import CategorySelect from './CategorySelect'
 import ImagePicker from './ImagePicker'
+import CountrySelect from './CountrySelect'
 
 export default function StoreForm({
     onSubmit,
@@ -31,7 +32,9 @@ export default function StoreForm({
 }) {
     const firestore = useFirestore()
     const classes = useStyles()
-    const [locations, setLocations] = React.useState(initialValues.locations || [])
+    const [locations, setLocations] = React.useState(
+        initialValues.locations || [],
+    )
     const [location, setLocation] = React.useState({
         latitude: '',
         longitude: '',
@@ -63,7 +66,10 @@ export default function StoreForm({
             const latitude = parseFloat(location.latitude)
             const longitude = parseFloat(location.longitude)
             if (latitude && longitude) {
-                setLocations([...locations, new firestore.GeoPoint(latitude, longitude)])
+                setLocations([
+                    ...locations,
+                    new firestore.GeoPoint(latitude, longitude),
+                ])
                 setLocation({
                     latitude: '',
                     longitude: '',
@@ -82,9 +88,10 @@ export default function StoreForm({
         [locations],
     )
 
-    const newLocation = React.useMemo(() => location.latitude && location.longitude, [
-        location,
-    ])
+    const newLocation = React.useMemo(
+        () => location.latitude && location.longitude,
+        [location],
+    )
 
     return (
         <Paper className={classes.paper}>
@@ -147,7 +154,9 @@ export default function StoreForm({
                                             height={100}
                                             title='Logo *'
                                             required
-                                            handleImageChange={formik.handleChange}
+                                            handleImageChange={
+                                                formik.handleChange
+                                            }
                                             img={formik.values.logo}
                                         />
                                         <FormHelperText
@@ -167,7 +176,9 @@ export default function StoreForm({
                                             title='Store Image *'
                                             required
                                             img={formik.values.image}
-                                            handleImageChange={formik.handleChange}
+                                            handleImageChange={
+                                                formik.handleChange
+                                            }
                                         />
                                         <FormHelperText
                                             style={{ textAlign: 'center' }}
@@ -194,7 +205,9 @@ export default function StoreForm({
                                     onChange={formik.handleChange}
                                     value={formik.values.whatsApp_number}
                                 />
-                                <FormHelperText error={formik.errors.whatsApp_number}>
+                                <FormHelperText
+                                    error={formik.errors.whatsApp_number}
+                                >
                                     {formik.errors.whatsApp_number}
                                 </FormHelperText>
                             </Grid>
@@ -212,7 +225,9 @@ export default function StoreForm({
                                     onChange={formik.handleChange}
                                     value={formik.values.call_number}
                                 />
-                                <FormHelperText error={formik.errors.call_number}>
+                                <FormHelperText
+                                    error={formik.errors.call_number}
+                                >
                                     {formik.errors.call_number}
                                 </FormHelperText>
                             </Grid>
@@ -229,7 +244,9 @@ export default function StoreForm({
                                     onChange={formik.handleChange}
                                     value={formik.values.order_link}
                                 />
-                                <FormHelperText error={formik.errors.order_link}>
+                                <FormHelperText
+                                    error={formik.errors.order_link}
+                                >
                                     {formik.errors.order_link}
                                 </FormHelperText>
                             </Grid>
@@ -311,11 +328,27 @@ export default function StoreForm({
                                     value={formik.values.categories || []}
                                     onChange={formik.handleChange}
                                 />
-                                <FormHelperText error={formik.errors.categories}>
+                                <FormHelperText
+                                    error={formik.errors.categories}
+                                >
                                     {formik.errors.categories}
                                 </FormHelperText>
                             </Grid>
 
+                            {/* Country */}
+                            <Grid item xs={12} sm={12}>
+                                <CountrySelect
+                                    disabled={disabled}
+                                    error={formik.errors.country}
+                                    value={formik.values.country}
+                                    onChange={formik.handleChange}
+                                />
+                                <FormHelperText error={formik.errors.country}>
+                                    {formik.errors.country}
+                                </FormHelperText>
+                            </Grid>
+
+                            {/* Submit */}
                             <Grid item xs={12}>
                                 <Button
                                     disabled={disabled}

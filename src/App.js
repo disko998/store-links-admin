@@ -10,7 +10,7 @@ function App() {
         { collection: 'stores', orderBy: 'name' },
         { collection: 'categories', orderBy: 'title' },
         { collection: 'countries', orderBy: 'name' },
-        { collection: 'requests', orderBy: 'createdAt' },
+        { collection: 'requests', orderBy: 'createdAt', limit: 20 },
     ])
 
     return (

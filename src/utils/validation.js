@@ -9,6 +9,7 @@ export const AddStoreSchema = Yup.object().shape({
     call_number: Yup.number().required(),
     order_link: Yup.string().url(),
     categories: Yup.array().of(Yup.string().required()).required(),
+    country: Yup.string().required(),
 })
 
 export const EditStoreSchema = Yup.object().shape({
@@ -18,4 +19,5 @@ export const EditStoreSchema = Yup.object().shape({
     call_number: Yup.number().required(),
     order_link: Yup.string().url(),
     categories: Yup.array().of(Yup.string().required()).required(),
+    country: Yup.string().required(),
 })
