@@ -11,7 +11,9 @@ export default function AdBanner() {
     const classes = useStyles()
     useFirestoreConnect(() => [{ collection: 'ads', doc: 'ad' }])
     const firestore = useFirestore()
-    const ad = useSelector(({ firestore: { data } }) => data.ads && data.ads['ad'])
+    const ad = useSelector(
+        ({ firestore: { data } }) => data.ads && data.ads['ad'],
+    )
 
     const handleChange = event => {
         firestore.update('ads/ad', {

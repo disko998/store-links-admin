@@ -68,7 +68,11 @@ export default function StoreCard({
                 subheader={store.title}
             />
             <label htmlFor='image'>
-                <CardMedia className={classes.media} image={store.image} title='Store' />
+                <CardMedia
+                    className={classes.media}
+                    image={store.image}
+                    title='Store'
+                />
             </label>
 
             <input
@@ -118,7 +122,9 @@ export default function StoreCard({
                     )}
                 </IconButton>
                 <IconButton aria-label='delete' onClick={onDelete}>
-                    <DeleteIcon style={{ color: '#b2102f', fontSize: ICON_SIZE }} />
+                    <DeleteIcon
+                        style={{ color: '#b2102f', fontSize: ICON_SIZE }}
+                    />
                 </IconButton>
 
                 <IconButton
@@ -163,7 +169,6 @@ const useStyles = makeStyles(theme => ({
         color: 'green',
     },
     avatar: {
-        backgroundColor: red[500],
         cursor: 'pointer',
     },
 }))

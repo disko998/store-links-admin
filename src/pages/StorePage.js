@@ -18,7 +18,9 @@ export default function StorePage() {
     const [expanded, setExpanded] = React.useState(false)
     const [dialog, setDialog] = React.useState(false)
 
-    const store = useSelector(({ firestore: { data } }) => data.stores && data.stores[id])
+    const store = useSelector(
+        ({ firestore: { data } }) => data.stores && data.stores[id],
+    )
 
     const initialValues = React.useMemo(
         () =>
@@ -30,6 +32,7 @@ export default function StorePage() {
                 order_link: store.order_link,
                 categories: store.categories,
                 locations: store.locations,
+                country: store.country,
             },
         [store],
     )
