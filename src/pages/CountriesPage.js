@@ -9,12 +9,14 @@ import { asyncHandler } from '../utils/helper'
 const columns = [
     { title: 'ID', field: 'id', editable: 'never' },
     { title: 'Name', field: 'name' },
+    { title: 'Stores', field: 'stores', editable: 'never' },
 ]
 
 export default function CountriesPage() {
     // hooks
     const firestore = useFirestore()
     const countries = useSelector(state => state.firestore.ordered.countries)
+    const stores = useSelector(state => state.firestore.ordered.stores)
 
     // callback handlers
     const onAdd = React.useCallback(
@@ -36,12 +38,22 @@ export default function CountriesPage() {
         [firestore],
     )
 
+    const data = React.useMemo(
+        () =>
+            countries &&
+            countries.map(country => ({
+                ...country,
+                stores: stores.filter(s => s.country === country.name).length,
+            })),
+        [countries, stores],
+    )
+
     return (
         <MaterialTable
             icons={TableIcons}
             title='Edit Categories'
             columns={columns}
-            data={countries && countries.map(o => ({ ...o }))}
+            data={data}
             isLoading={!countries}
             editable={{
                 onRowAdd: onAdd,
