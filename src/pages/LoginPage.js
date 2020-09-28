@@ -15,10 +15,27 @@ import Container from '@material-ui/core/Container'
 import { useFormik } from 'formik'
 import { LoginSchema } from '../utils/validation'
 import { useFirebase } from 'react-redux-firebase'
+import EmailDialog from '../components/EmailDialog'
 
 export default function LoginPage() {
     const classes = useStyles()
     const firebase = useFirebase()
+    const [open, setOpen] = React.useState(false)
+
+    const handleClickOpen = () => {
+        setOpen(true)
+    }
+
+    const handleClose = () => {
+        setOpen(false)
+    }
+
+    const resetPassword = email => {
+        firebase
+            .resetPassword(email)
+            .then(res => console.log(res))
+            .catch(err => console.log(err))
+    }
 
     const formik = useFormik({
         initialValues: {
@@ -89,20 +106,24 @@ export default function LoginPage() {
                     >
                         Sign In
                     </Button>
-                    {/* <Grid container>
+                    <Grid container>
                         <Grid item xs>
-                            <Link href='#' variant='body2'>
+                            <Link
+                                href='#'
+                                variant='body2'
+                                onClick={handleClickOpen}
+                            >
                                 Forgot password?
                             </Link>
                         </Grid>
-                        <Grid item>
-                            <Link href='#' variant='body2'>
-                                {"Don't have an account? Sign Up"}
-                            </Link>
-                        </Grid>
-                    </Grid> */}
+                    </Grid>
                 </form>
             </div>
+            <EmailDialog
+                open={open}
+                handleClose={handleClose}
+                onReset={resetPassword}
+            />
             <Box mt={8}>
                 <Copyright />
             </Box>
