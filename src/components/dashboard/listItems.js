@@ -1,6 +1,12 @@
 import * as React from 'react'
 import { useHistory } from 'react-router-dom'
-import { ListItem, ListItemIcon, ListItemText, ListSubheader } from '@material-ui/core'
+import {
+    ListItem,
+    ListItemIcon,
+    ListItemText,
+    ListSubheader,
+    Divider,
+} from '@material-ui/core'
 
 import DashboardIcon from '@material-ui/icons/Dashboard'
 import StoreIcon from '@material-ui/icons/Store'
@@ -8,9 +14,11 @@ import LayersIcon from '@material-ui/icons/Layers'
 import AnnouncementIcon from '@material-ui/icons/Announcement'
 import CategoryIcon from '@material-ui/icons/Category'
 import FlagIcon from '@material-ui/icons/Flag'
+import MeetingRoomIcon from '@material-ui/icons/MeetingRoom'
 import ViewCarouselIcon from '@material-ui/icons/ViewCarousel'
 
 import routes from '../../router/routes'
+import { useFirebase } from 'react-redux-firebase'
 
 export const MainListItems = () => {
     let history = useHistory()
@@ -53,6 +61,7 @@ export const MainListItems = () => {
 
 export const SecondaryListItems = () => {
     let history = useHistory()
+    const firebase = useFirebase()
 
     return (
         <div>
@@ -68,6 +77,13 @@ export const SecondaryListItems = () => {
                     <FlagIcon />
                 </ListItemIcon>
                 <ListItemText primary='Country' />
+            </ListItem>
+            <Divider />
+            <ListItem button onClick={firebase.logout}>
+                <ListItemIcon>
+                    <MeetingRoomIcon />
+                </ListItemIcon>
+                <ListItemText primary='Logout' />
             </ListItem>
         </div>
     )

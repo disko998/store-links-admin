@@ -21,3 +21,8 @@ export const EditStoreSchema = Yup.object().shape({
     categories: Yup.array().of(Yup.string().required()).required(),
     country: Yup.string().required(),
 })
+
+export const LoginSchema = Yup.object().shape({
+    email: Yup.string().email().required(),
+    password: Yup.string().required(),
+})

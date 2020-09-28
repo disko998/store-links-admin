@@ -8,4 +8,5 @@ export default {
     COUNTRY: '/country',
     ADD: '/add',
     VIEW_STORE: '/view',
+    LOGIN: '/login',
 }

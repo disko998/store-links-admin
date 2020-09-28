@@ -3,7 +3,7 @@ import { BrowserRouter } from 'react-router-dom'
 import { useFirestoreConnect } from 'react-redux-firebase'
 
 import './App.css'
-import MainPage from './pages/MainPage'
+import RootRouter from './router'
 
 function App() {
     useFirestoreConnect([
@@ -15,7 +15,7 @@ function App() {
 
     return (
         <BrowserRouter>
-            <MainPage />
+            <RootRouter />
         </BrowserRouter>
     )
 }

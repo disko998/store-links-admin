@@ -1,5 +1,5 @@
 import React from 'react'
-import { Switch, Route, useRouteMatch, useLocation } from 'react-router-dom'
+import { Switch, Route, useRouteMatch } from 'react-router-dom'
 
 import routes from './routes'
 import StoresPage from '../pages/StoresPage'
@@ -21,15 +21,5 @@ export default function StoreStack() {
                 <AddStorePage />
             </Route>
         </Switch>
-    )
-}
-
-function Development(props) {
-    let location = useLocation()
-
-    return (
-        <div>
-            <h2>"{location.pathname}" is in development</h2>
-        </div>
     )
 }
